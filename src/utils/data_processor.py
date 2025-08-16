@@ -118,6 +118,9 @@ class SafetyDataProcessor:
         # Remove completely empty rows and columns
         df = df.dropna(how='all').dropna(axis=1, how='all')
         
+        # Handle duplicate columns
+        df = self._handle_duplicate_columns(df)
+        
         # Clean column names
         df.columns = self._clean_column_names(df.columns)
         
@@ -140,6 +143,30 @@ class SafetyDataProcessor:
         df = self._standardize_status_values(df)
         
         return df
+    
+    def _handle_duplicate_columns(self, df):
+        """Handle duplicate column names"""
+        try:
+            # Get column names
+            cols = df.columns.tolist()
+            
+            # Find duplicates and rename them
+            seen = {}
+            new_cols = []
+            
+            for col in cols:
+                if col in seen:
+                    seen[col] += 1
+                    new_cols.append(f"{col}_{seen[col]}")
+                else:
+                    seen[col] = 0
+                    new_cols.append(col)
+            
+            df.columns = new_cols
+            return df
+        except Exception as e:
+            print(f"Error handling duplicate columns: {str(e)}")
+            return df
     
     def _clean_column_names(self, columns):
         """Clean and standardize column names"""
@@ -175,15 +202,36 @@ class SafetyDataProcessor:
     
     def _clean_text_data(self, df):
         """Clean and standardize text data"""
-        text_columns = df.select_dtypes(include=['object']).columns
-        
-        for col in text_columns:
-            df[col] = df[col].astype(str)
-            df[col] = df[col].str.strip()
-            df[col] = df[col].replace('nan', np.nan)
-            df[col] = df[col].replace('', np.nan)
-        
-        return df
+        try:
+            if df.empty:
+                return df
+                
+            text_columns = df.select_dtypes(include=['object']).columns
+            
+            for col in text_columns:
+                if col in df.columns:
+                    try:
+                        # Get the column as a series
+                        col_data = df[col]
+                        if isinstance(col_data, pd.DataFrame):
+                            # If it's a DataFrame, skip it
+                            print(f"Skipping column {col}: returned DataFrame instead of Series")
+                            continue
+                        
+                        # Convert to string and clean
+                        series = col_data.astype(str)
+                        series = series.str.strip()
+                        series = series.replace('nan', np.nan)
+                        series = series.replace('', np.nan)
+                        df[col] = series
+                    except Exception as col_error:
+                        print(f"Error cleaning column {col}: {str(col_error)}")
+                        continue
+            
+            return df
+        except Exception as e:
+            print(f"Error cleaning text data: {str(e)}")
+            return df
     
     def _standardize_status_values(self, df):
         """Standardize status values across all datasets"""
@@ -350,12 +398,23 @@ class SafetyDataProcessor:
     
     def _get_date_range(self, df):
         """Get date range from dataframe"""
-        date_columns = [col for col in df.columns if df[col].dtype == 'datetime64[ns]']
-        if not date_columns:
-            return None
-        
-        all_dates = pd.concat([df[col].dropna() for col in date_columns])
-        if len(all_dates) == 0:
+        try:
+            date_columns = []
+            for col in df.columns:
+                try:
+                    if pd.api.types.is_datetime64_any_dtype(df[col]):
+                        date_columns.append(col)
+                except:
+                    continue
+                    
+            if not date_columns:
+                return None
+            
+            all_dates = pd.concat([df[col].dropna() for col in date_columns])
+            if len(all_dates) == 0:
+                return None
+        except Exception as e:
+            print(f"Error getting date range: {str(e)}")
             return None
         
         return {
@@ -430,6 +489,14 @@ class SafetyDataProcessor:
             }
         
         return report
+    
+    def generate_kpis(self, unified_data):
+        """Generate KPIs - alias for generate_kpi_data"""
+        return self.generate_kpi_data(unified_data)
+    
+    def generate_quality_report(self, unified_data):
+        """Generate quality report - alias for get_data_quality_report"""
+        return self.get_data_quality_report(unified_data)
 
 def main():
     """Main function for testing the data processor"""
