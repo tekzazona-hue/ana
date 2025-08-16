@@ -7,7 +7,7 @@ from pathlib import Path
 
 # Base paths
 BASE_DIR = Path(__file__).parent.parent.parent
-DATA_DIR = BASE_DIR / "data"
+DATA_DIR = BASE_DIR / "database"
 SRC_DIR = BASE_DIR / "src"
 
 # Application settings
@@ -17,19 +17,21 @@ APP_DESCRIPTION = "Professional Arabic-supported dashboard for safety and compli
 
 # Data file configurations
 EXCEL_FILES = {
-    'sample_data': 'sample-of-data.xlsx'
+    'sample_data': DATA_DIR / 'sample-of-data.xlsx',
+    'power_bi_copy': DATA_DIR / 'power-bi-copy-v.02.xlsx'
 }
 
 CSV_FILES = [
-    'ملاحظات_التفتيش.csv',
-    'تقييم_المخاطر.csv', 
-    'الحوادث.csv',
-    'العلى_المقاولين.csv',
-    'تدقيق_المقاولين.csv',
-    'توصيات_التدقيق_على_المقاولين.csv',
-    'توصيات_الحوادث.csv',
-    'توصيات_ملاحظات_التفتيش.csv',
-    'توصيات_تقييم_المخاطر.csv'
+    DATA_DIR / 'التفتيش.csv',
+    DATA_DIR / 'تقييم_المخاطر.csv', 
+    DATA_DIR / 'الحوادث.csv',
+    DATA_DIR / 'العلى_المقاولين.csv',
+    DATA_DIR / 'أنظمة_السلامة_والإطفاء.csv',
+    DATA_DIR / 'الفرضيات.csv',
+    DATA_DIR / 'متطلبات_SCIS.csv',
+    DATA_DIR / 'معرفات.csv',
+    DATA_DIR / 'والمواقع.csv',
+    DATA_DIR / 'Power_BI_Copy_v.02_Sheet1.csv'
 ]
 
 # UI Configuration

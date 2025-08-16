@@ -32,6 +32,37 @@ class SafetyDataProcessor:
         self.unified_data = {}
         self.metadata = {}
         
+        # Set up database path
+        self.base_dir = os.path.join(os.path.dirname(__file__), '..', '..')
+        self.database_dir = os.path.join(self.base_dir, 'database')
+        
+    def get_database_path(self, filename):
+        """Get full path for database file"""
+        return os.path.join(self.database_dir, filename)
+    
+    def load_all_data(self):
+        """Load all data from database directory"""
+        all_data = {}
+        
+        # Load Excel files
+        excel_files = ['sample-of-data.xlsx', 'power-bi-copy-v.02.xlsx']
+        for excel_file in excel_files:
+            file_path = self.get_database_path(excel_file)
+            if os.path.exists(file_path):
+                excel_data = self.load_excel_data(file_path)
+                all_data[excel_file] = excel_data
+        
+        # Load CSV files
+        csv_files = [f for f in os.listdir(self.database_dir) if f.endswith('.csv')]
+        for csv_file in csv_files:
+            file_path = self.get_database_path(csv_file)
+            csv_data = self.load_csv_data(file_path)
+            if csv_data is not None and not csv_data.empty:
+                all_data[csv_file] = csv_data
+        
+        self.data_sources = all_data
+        return all_data
+        
     def load_excel_data(self, file_path):
         """Load and process Excel data with multiple sheets"""
         try:

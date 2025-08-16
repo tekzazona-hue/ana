@@ -18,10 +18,10 @@ import os
 sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
 
 # Import components
-from utils.data_processor import DataProcessor
-from components.advanced_features import AdvancedFeatures
-from components.theme_manager import ThemeManager
-from components.gemini_chatbot import create_chatbot_interface
+from src.utils.data_processor import SafetyDataProcessor as DataProcessor
+from src.components.advanced_features import AdvancedFeatures
+from src.components.theme_manager import ThemeManager
+from src.components.gemini_chatbot import create_chatbot_interface
 
 # Page configuration
 st.set_page_config(
@@ -242,29 +242,19 @@ class UltimateDashboard:
         try:
             processor = DataProcessor()
             
-            # Load Excel data
-            excel_data = processor.load_excel_data('sample-of-data.xlsx')
+            # Load all data from database directory
+            all_data = processor.load_all_data()
             
-            # Load CSV files
-            csv_files = [
-                'ملاحظات_التفتيش.csv',
-                'تقييم_المخاطر.csv', 
-                'الحوادث.csv',
-                'العلى_المقاولين.csv',
-                'تدقيق_المقاولين.csv',
-                'توصيات_التدقيق_على_المقاولين.csv',
-                'توصيات_الحوادث.csv',
-                'توصيات_ملاحظات_التفتيش.csv',
-                'توصيات_تقييم_المخاطر.csv'
-            ]
-            
-            csv_data = {}
-            for file in csv_files:
-                if os.path.exists(file):
-                    csv_data[file.replace('.csv', '')] = processor.load_csv_data(file)
-            
-            # Combine all data
-            unified_data = {**excel_data, **csv_data}
+            # Flatten the data structure for easier access
+            unified_data = {}
+            for source_name, source_data in all_data.items():
+                if isinstance(source_data, dict):
+                    # Excel file with multiple sheets
+                    for sheet_name, sheet_data in source_data.items():
+                        unified_data[f"{source_name}_{sheet_name}"] = sheet_data
+                else:
+                    # CSV file
+                    unified_data[source_name.replace('.csv', '')] = source_data
             
             # Generate KPIs
             kpi_data = processor.generate_kpis(unified_data)
