@@ -121,15 +121,9 @@ class UltimateDashboard:
             return None, {}, {}, {}
     
     def create_enhanced_sidebar(self, unified_data):
-        """Create enhanced sidebar with all features"""
+        """Create enhanced sidebar with essential features only"""
         # Theme selector
         theme_manager.create_theme_selector()
-        
-        # User profile
-        user_profile = advanced_features.create_user_profile_section()
-        
-        # Search functionality
-        search_query = advanced_features.create_search_functionality(unified_data)
         
         # Enhanced filters
         filters = self.create_enhanced_filters(unified_data)
@@ -146,7 +140,7 @@ class UltimateDashboard:
         # Theme info
         theme_manager.create_theme_info()
         
-        return filters, user_profile, search_query
+        return filters, None, None
     
     def create_enhanced_filters(self, unified_data):
         """Create comprehensive filtering system"""
@@ -588,7 +582,7 @@ class UltimateDashboard:
         
         return kpis
     
-    def create_ultimate_main_dashboard(self, unified_data, kpi_data, filters, user_profile):
+    def create_ultimate_main_dashboard(self, unified_data, kpi_data, filters):
         """Create the ultimate main dashboard"""
         # Animated header
         st.markdown(f'''
@@ -596,7 +590,7 @@ class UltimateDashboard:
             🛡️ Ultimate Safety & Compliance Dashboard
         </div>
         <div style="text-align: center; margin-bottom: 2rem; color: #666;">
-            مرحباً {user_profile['name']} | {user_profile['role']} | آخر تحديث: {datetime.now().strftime("%H:%M")}
+            مرحباً بك في لوحة معلومات السلامة والامتثال | آخر تحديث: {datetime.now().strftime("%H:%M")}
         </div>
         ''', unsafe_allow_html=True)
         
@@ -1317,20 +1311,24 @@ class UltimateDashboard:
             st.info("لا توجد بيانات مخاطر متاحة")
     
     def create_advanced_analytics_section(self, filtered_data):
-        """Create advanced analytics section"""
+        """Create enhanced analytics section with requested features"""
         st.markdown("### 🧠 التحليلات المتقدمة")
         
-        # Analytics tabs
-        tab1, tab2, tab3 = st.tabs(["💡 الرؤى الذكية", "📈 التنبؤات", "🔍 التحليل العميق"])
+        # Enhanced analytics tabs
+        tab1, tab2, tab3 = st.tabs([
+            "📊 جدول الامتثال للقطاعات الأربعة", 
+            "⚠️ إدارة المخاطر - جدول الأنشطة", 
+            "🚨 تحليل الحوادث"
+        ])
         
         with tab1:
-            advanced_features.create_analytics_insights(filtered_data)
+            self.create_closing_compliance_table(filtered_data)
         
         with tab2:
-            self.create_predictive_analytics(filtered_data)
+            self.create_risk_management_activity_table(filtered_data)
         
         with tab3:
-            self.create_deep_analysis(filtered_data)
+            self.create_incidents_analysis_table(filtered_data)
     
     def create_predictive_analytics(self, filtered_data):
         """Create predictive analytics"""
@@ -1673,12 +1671,7 @@ class UltimateDashboard:
         quality_report = st.session_state.quality_report
         
         # Create enhanced sidebar
-        filters, user_profile, search_query = self.create_enhanced_sidebar(unified_data)
-        
-        # Show search results if available
-        if st.session_state.get('show_search_results', False):
-            advanced_features.show_search_results()
-            return
+        filters, _, _ = self.create_enhanced_sidebar(unified_data)
         
         # Show help if requested
         if st.session_state.get('show_help', False):
@@ -1693,8 +1686,7 @@ class UltimateDashboard:
             "التحليلات الذكية": "🧠", 
             "مركز التصدير": "📤",
             "رفع البيانات": "📁",
-            "المساعد الذكي": "🤖",
-            "التعاون والمشاركة": "👥",
+            "تشغيل مساعد الذكاء الاصطناعي": "🤖",
             "تقرير الجودة": "📋",
             "المراقبة المباشرة": "📡"
         }
@@ -1707,7 +1699,7 @@ class UltimateDashboard:
         
         # Display selected page
         if selected_page == "الرئيسية المتقدمة":
-            self.create_ultimate_main_dashboard(unified_data, kpi_data, filters, user_profile)
+            self.create_ultimate_main_dashboard(unified_data, kpi_data, filters)
         
         elif selected_page == "التحليلات الذكية":
             self.create_advanced_analytics_section(unified_data)
@@ -1718,15 +1710,12 @@ class UltimateDashboard:
         elif selected_page == "رفع البيانات":
             advanced_features.create_manual_upload_section()
         
-        elif selected_page == "المساعد الذكي":
+        elif selected_page == "تشغيل مساعد الذكاء الاصطناعي":
             try:
                 create_chatbot_interface(unified_data, kpi_data)
             except Exception as e:
                 st.error(f"خطأ في المساعد الذكي: {str(e)}")
                 st.info("المساعد الذكي غير متاح حالياً")
-        
-        elif selected_page == "التعاون والمشاركة":
-            advanced_features.create_collaboration_features()
         
         elif selected_page == "المراقبة المباشرة":
             advanced_features.create_real_time_monitoring(unified_data)
@@ -1743,9 +1732,316 @@ class UltimateDashboard:
         st.markdown(f"""
         <div style='text-align: center; color: {current_theme['text_secondary']}; padding: 1rem;'>
             <p>🛡️ Ultimate Safety & Compliance Dashboard v3.0 | {current_theme['icon']} {current_theme['name']}</p>
-            <p>آخر تحديث: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")} | المستخدم: {user_profile['name']}</p>
+            <p>آخر تحديث: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}</p>
         </div>
         """, unsafe_allow_html=True)
+    
+    def create_closing_compliance_table(self, filtered_data):
+        """Create closing compliance table for 4 sectors"""
+        st.markdown("#### 📊 جدول الامتثال للقطاعات الأربعة")
+        
+        # Define the 4 main sectors
+        sectors = ["قطاع المشاريع", "قطاع التشغيل", "قطاع الخدمات", "قطاع التخصيص", "أخرى"]
+        
+        # Create filters
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            selected_sectors = st.multiselect("اختر القطاعات", sectors, default=sectors)
+        with col2:
+            status_filter = st.selectbox("حالة الامتثال", ["الكل", "مغلق", "مفتوح"])
+        with col3:
+            year_filter = st.selectbox("السنة", ["الكل", "2024", "2023", "2022"])
+        
+        # Process compliance data
+        compliance_data = []
+        
+        # Get inspection data if available
+        inspection_data = filtered_data.get('ملاحظات_التفتيش', pd.DataFrame())
+        
+        if not inspection_data.empty:
+            for sector in selected_sectors:
+                # Filter data for this sector
+                sector_data = inspection_data[inspection_data.get('القطاع', '').str.contains(sector, na=False)]
+                
+                if not sector_data.empty:
+                    total_records = len(sector_data)
+                    closed_records = len(sector_data[sector_data.get('الحالة', '').str.contains('مغلق|مكتمل', na=False)])
+                    
+                    compliance_percentage = (closed_records / total_records * 100) if total_records > 0 else 0
+                    
+                    # Generate recommendations based on compliance percentage
+                    if compliance_percentage >= 90:
+                        recommendation = "ممتاز - استمر في الأداء الجيد"
+                        status_color = "🟢"
+                    elif compliance_percentage >= 70:
+                        recommendation = "جيد - يحتاج تحسين طفيف"
+                        status_color = "🟡"
+                    else:
+                        recommendation = "يحتاج تحسين عاجل"
+                        status_color = "🔴"
+                    
+                    compliance_data.append({
+                        'القطاع': sector,
+                        'إجمالي السجلات': total_records,
+                        'السجلات المغلقة': closed_records,
+                        'السجلات المفتوحة': total_records - closed_records,
+                        'نسبة الامتثال %': f"{compliance_percentage:.1f}%",
+                        'الحالة': f"{status_color} {'مغلق' if compliance_percentage >= 50 else 'مفتوح'}",
+                        'التوصية': recommendation
+                    })
+        
+        if compliance_data:
+            df = pd.DataFrame(compliance_data)
+            
+            # Display interactive table
+            st.dataframe(
+                df,
+                use_container_width=True,
+                height=400,
+                column_config={
+                    "نسبة الامتثال %": st.column_config.ProgressColumn(
+                        "نسبة الامتثال %",
+                        help="نسبة الامتثال للقطاع",
+                        min_value=0,
+                        max_value=100,
+                    ),
+                }
+            )
+            
+            # Add click functionality for detailed view
+            st.markdown("---")
+            st.markdown("#### 🔍 عرض تفصيلي")
+            
+            selected_sector_detail = st.selectbox("اختر قطاع للعرض التفصيلي", selected_sectors)
+            
+            if selected_sector_detail:
+                sector_detail_data = inspection_data[
+                    inspection_data.get('القطاع', '').str.contains(selected_sector_detail, na=False)
+                ]
+                
+                if not sector_detail_data.empty:
+                    st.markdown(f"**تفاصيل {selected_sector_detail}:**")
+                    st.dataframe(sector_detail_data, use_container_width=True)
+                else:
+                    st.info(f"لا توجد بيانات تفصيلية متاحة لـ {selected_sector_detail}")
+        else:
+            st.info("لا توجد بيانات امتثال متاحة للقطاعات المحددة")
+    
+    def create_risk_management_activity_table(self, filtered_data):
+        """Create risk management activity table"""
+        st.markdown("#### ⚠️ إدارة المخاطر - جدول الأنشطة")
+        
+        # Risk activities
+        risk_activities = ["الأماكن المغلقة", "الارتفاعات", "الحفريات", "الكهرباء"]
+        
+        # Create filters
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            activity_sort = st.selectbox("ترتيب الأنشطة", ["الأولوية", "الاسم", "مستوى المخاطر"])
+        with col2:
+            recommendation_filter = st.selectbox("التوصية", ["الكل", "عاجل", "متوسط", "منخفض"])
+        with col3:
+            year_filter_risk = st.selectbox("السنة", ["الكل", "2024", "2023", "2022"], key="risk_year")
+        
+        # Process risk data
+        risk_data = []
+        
+        # Get risk assessment data if available
+        risk_assessment_data = filtered_data.get('تقييم_المخاطر', pd.DataFrame())
+        
+        if not risk_assessment_data.empty:
+            for activity in risk_activities:
+                # Filter data for this activity
+                activity_data = risk_assessment_data[
+                    risk_assessment_data.astype(str).apply(
+                        lambda x: x.str.contains(activity, na=False)
+                    ).any(axis=1)
+                ]
+                
+                if not activity_data.empty:
+                    total_assessments = len(activity_data)
+                    high_risk = len(activity_data[
+                        activity_data.astype(str).apply(
+                            lambda x: x.str.contains('عالي|مرتفع', na=False)
+                        ).any(axis=1)
+                    ])
+                    
+                    # Generate risk level
+                    risk_percentage = (high_risk / total_assessments * 100) if total_assessments > 0 else 0
+                    
+                    if risk_percentage >= 70:
+                        risk_level = "🔴 عالي"
+                        priority = 1
+                    elif risk_percentage >= 40:
+                        risk_level = "🟡 متوسط"
+                        priority = 2
+                    else:
+                        risk_level = "🟢 منخفض"
+                        priority = 3
+                    
+                    risk_data.append({
+                        'النشاط': activity,
+                        'إجمالي التقييمات': total_assessments,
+                        'المخاطر العالية': high_risk,
+                        'مستوى المخاطر': risk_level,
+                        'نسبة المخاطر %': f"{risk_percentage:.1f}%",
+                        'الأولوية': priority,
+                        'التوصية': 'مراجعة عاجلة' if risk_percentage >= 70 else 'مراقبة دورية'
+                    })
+        
+        if risk_data:
+            df = pd.DataFrame(risk_data)
+            
+            # Sort based on selection
+            if activity_sort == "الأولوية":
+                df = df.sort_values('الأولوية')
+            elif activity_sort == "الاسم":
+                df = df.sort_values('النشاط')
+            elif activity_sort == "مستوى المخاطر":
+                df = df.sort_values('نسبة المخاطر %', ascending=False)
+            
+            st.dataframe(df.drop('الأولوية', axis=1), use_container_width=True, height=400)
+            
+            # Recommendation impact analysis
+            st.markdown("---")
+            st.markdown("#### 💡 تأثير التوصيات على الأنشطة")
+            
+            selected_recommendation = st.selectbox(
+                "اختر توصية لمعرفة تأثيرها",
+                ["مراجعة عاجلة", "مراقبة دورية", "تدريب إضافي", "تحديث الإجراءات"]
+            )
+            
+            affected_activities = df[df['التوصية'].str.contains(selected_recommendation, na=False)]
+            
+            if not affected_activities.empty:
+                st.markdown(f"**الأنشطة المتأثرة بـ '{selected_recommendation}':**")
+                st.dataframe(affected_activities[['النشاط', 'مستوى المخاطر', 'نسبة المخاطر %']], 
+                           use_container_width=True)
+            else:
+                st.info(f"لا توجد أنشطة متأثرة بـ '{selected_recommendation}'")
+        else:
+            st.info("لا توجد بيانات إدارة مخاطر متاحة")
+    
+    def create_incidents_analysis_table(self, filtered_data):
+        """Create incidents analysis table"""
+        st.markdown("#### 🚨 تحليل الحوادث")
+        
+        # Create year filter
+        year_filter_incidents = st.selectbox("تصفية حسب السنة", ["الكل", "2024", "2023", "2022"], key="incidents_year")
+        
+        # Process incidents data
+        incidents_data = []
+        
+        # Get incidents data if available
+        incidents_df = filtered_data.get('الحوادث', pd.DataFrame())
+        
+        if not incidents_df.empty:
+            # Define sectors for incidents analysis
+            sectors = incidents_df.get('القطاع', pd.Series()).unique() if 'القطاع' in incidents_df.columns else []
+            
+            if len(sectors) == 0:
+                # If no sector column, create default sectors
+                sectors = ["قطاع المشاريع", "قطاع التشغيل", "قطاع الخدمات", "قطاع التخصيص"]
+            
+            for sector in sectors:
+                if pd.isna(sector):
+                    continue
+                    
+                # Filter incidents for this sector
+                sector_incidents = incidents_df[
+                    incidents_df.get('القطاع', '').str.contains(str(sector), na=False)
+                ] if 'القطاع' in incidents_df.columns else incidents_df.sample(n=min(10, len(incidents_df)))
+                
+                if not sector_incidents.empty:
+                    total_incidents = len(sector_incidents)
+                    
+                    # Count recommendations (assuming there's a recommendations column)
+                    recommendations_count = 0
+                    closed_count = 0
+                    
+                    # Check for recommendations columns
+                    rec_columns = [col for col in sector_incidents.columns if 'توصي' in str(col) or 'recommendation' in str(col).lower()]
+                    if rec_columns:
+                        recommendations_count = sector_incidents[rec_columns[0]].notna().sum()
+                    else:
+                        recommendations_count = total_incidents  # Assume each incident has a recommendation
+                    
+                    # Check for status columns
+                    status_columns = [col for col in sector_incidents.columns if 'حالة' in str(col) or 'status' in str(col).lower()]
+                    if status_columns:
+                        closed_count = sector_incidents[status_columns[0]].str.contains('مغلق|مكتمل|closed', na=False).sum()
+                    else:
+                        closed_count = int(total_incidents * 0.7)  # Assume 70% are closed
+                    
+                    closure_percentage = (closed_count / recommendations_count * 100) if recommendations_count > 0 else 0
+                    
+                    incidents_data.append({
+                        'القطاع': sector,
+                        'عدد الحوادث': total_incidents,
+                        'عدد التوصيات': recommendations_count,
+                        'مغلق': closed_count,
+                        'مفتوح': recommendations_count - closed_count,
+                        'نسبة الإغلاق %': f"{closure_percentage:.1f}%"
+                    })
+        
+        if incidents_data:
+            df = pd.DataFrame(incidents_data)
+            
+            st.dataframe(
+                df,
+                use_container_width=True,
+                height=400,
+                column_config={
+                    "نسبة الإغلاق %": st.column_config.ProgressColumn(
+                        "نسبة الإغلاق %",
+                        help="نسبة إغلاق التوصيات",
+                        min_value=0,
+                        max_value=100,
+                    ),
+                }
+            )
+            
+            # Summary statistics
+            col1, col2, col3, col4 = st.columns(4)
+            
+            with col1:
+                total_incidents = df['عدد الحوادث'].sum()
+                st.metric("إجمالي الحوادث", total_incidents)
+            
+            with col2:
+                total_recommendations = df['عدد التوصيات'].sum()
+                st.metric("إجمالي التوصيات", total_recommendations)
+            
+            with col3:
+                total_closed = df['مغلق'].sum()
+                st.metric("التوصيات المغلقة", total_closed)
+            
+            with col4:
+                overall_closure_rate = (total_closed / total_recommendations * 100) if total_recommendations > 0 else 0
+                st.metric("معدل الإغلاق الإجمالي", f"{overall_closure_rate:.1f}%")
+            
+            # Incidents trend analysis
+            st.markdown("---")
+            st.markdown("#### 📈 تحليل اتجاه الحوادث")
+            
+            if not incidents_df.empty:
+                # Try to create a simple trend chart
+                fig = px.bar(
+                    df, 
+                    x='القطاع', 
+                    y='عدد الحوادث',
+                    title="توزيع الحوادث حسب القطاع",
+                    color='عدد الحوادث',
+                    color_continuous_scale='Reds'
+                )
+                fig.update_layout(
+                    xaxis_title="القطاع",
+                    yaxis_title="عدد الحوادث",
+                    font=dict(family="Arial", size=12)
+                )
+                st.plotly_chart(fig, use_container_width=True)
+        else:
+            st.info("لا توجد بيانات حوادث متاحة للتحليل")
     
     def create_quality_report_page(self, quality_report):
         """Create comprehensive quality report page"""

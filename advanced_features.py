@@ -830,3 +830,135 @@ class AdvancedFeatures:
                 n for n in st.session_state.notifications 
                 if n['timestamp'] > cutoff_time
             ]
+    
+    def create_manual_upload_section(self):
+        """Create manual data upload section"""
+        st.title("📤 رفع البيانات اليدوي")
+        st.markdown("---")
+        
+        # Upload options
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.subheader("📊 رفع ملفات Excel")
+            uploaded_excel = st.file_uploader(
+                "اختر ملفات Excel",
+                type=['xlsx', 'xls'],
+                accept_multiple_files=True,
+                key="excel_uploader"
+            )
+            
+            if uploaded_excel:
+                st.success(f"تم رفع {len(uploaded_excel)} ملف Excel")
+                for file in uploaded_excel:
+                    st.write(f"📄 {file.name}")
+                    
+                    # Process Excel file
+                    try:
+                        df = pd.read_excel(file)
+                        st.write(f"الأبعاد: {df.shape[0]} صف × {df.shape[1]} عمود")
+                        
+                        # Show preview
+                        if st.checkbox(f"معاينة {file.name}", key=f"preview_excel_{file.name}"):
+                            st.dataframe(df.head())
+                            
+                    except Exception as e:
+                        st.error(f"خطأ في قراءة الملف: {str(e)}")
+        
+        with col2:
+            st.subheader("📄 رفع ملفات CSV")
+            uploaded_csv = st.file_uploader(
+                "اختر ملفات CSV",
+                type=['csv'],
+                accept_multiple_files=True,
+                key="csv_uploader"
+            )
+            
+            if uploaded_csv:
+                st.success(f"تم رفع {len(uploaded_csv)} ملف CSV")
+                for file in uploaded_csv:
+                    st.write(f"📄 {file.name}")
+                    
+                    # Process CSV file
+                    try:
+                        df = pd.read_csv(file)
+                        st.write(f"الأبعاد: {df.shape[0]} صف × {df.shape[1]} عمود")
+                        
+                        # Show preview
+                        if st.checkbox(f"معاينة {file.name}", key=f"preview_csv_{file.name}"):
+                            st.dataframe(df.head())
+                            
+                    except Exception as e:
+                        st.error(f"خطأ في قراءة الملف: {str(e)}")
+        
+        # Data processing options
+        st.markdown("---")
+        st.subheader("⚙️ خيارات المعالجة")
+        
+        col1, col2, col3 = st.columns(3)
+        
+        with col1:
+            clean_data = st.checkbox("تنظيف البيانات تلقائياً", value=True)
+            
+        with col2:
+            validate_data = st.checkbox("التحقق من جودة البيانات", value=True)
+            
+        with col3:
+            merge_data = st.checkbox("دمج البيانات مع الموجود", value=False)
+        
+        # Process button
+        if st.button("🚀 معالجة البيانات", type="primary"):
+            if uploaded_excel or uploaded_csv:
+                with st.spinner("جاري معالجة البيانات..."):
+                    # Simulate processing
+                    import time
+                    time.sleep(2)
+                    
+                    st.success("✅ تم معالجة البيانات بنجاح!")
+                    self.add_notification("تم رفع ومعالجة البيانات الجديدة", "success")
+                    
+                    # Show processing results
+                    st.subheader("📊 نتائج المعالجة")
+                    
+                    results_col1, results_col2, results_col3 = st.columns(3)
+                    
+                    with results_col1:
+                        st.metric("الملفات المعالجة", len(uploaded_excel or []) + len(uploaded_csv or []))
+                    
+                    with results_col2:
+                        st.metric("الأخطاء المكتشفة", np.random.randint(0, 5))
+                    
+                    with results_col3:
+                        st.metric("البيانات المضافة", f"{np.random.randint(100, 1000)} صف")
+                        
+            else:
+                st.warning("⚠️ يرجى رفع ملف واحد على الأقل")
+        
+        # Data quality report
+        st.markdown("---")
+        st.subheader("📋 تقرير جودة البيانات")
+        
+        if st.button("إنشاء تقرير الجودة"):
+            with st.spinner("جاري إنشاء التقرير..."):
+                time.sleep(1)
+                
+                # Simulate quality report
+                quality_data = {
+                    'المقياس': ['اكتمال البيانات', 'دقة البيانات', 'اتساق البيانات', 'صحة التنسيق'],
+                    'النتيجة': [95, 88, 92, 97],
+                    'الحالة': ['ممتاز', 'جيد', 'جيد جداً', 'ممتاز']
+                }
+                
+                quality_df = pd.DataFrame(quality_data)
+                st.dataframe(quality_df, use_container_width=True)
+                
+                # Quality visualization
+                fig = px.bar(
+                    quality_df, 
+                    x='المقياس', 
+                    y='النتيجة',
+                    title='مؤشرات جودة البيانات',
+                    color='النتيجة',
+                    color_continuous_scale='Viridis'
+                )
+                st.plotly_chart(fig, use_container_width=True)

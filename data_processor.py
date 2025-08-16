@@ -25,9 +25,15 @@ class SafetyDataProcessor:
             data = {}
             
             for sheet_name in excel_file.sheet_names:
-                df = pd.read_excel(file_path, sheet_name=sheet_name)
-                df = self._clean_dataframe(df, sheet_name)
-                data[sheet_name] = df
+                try:
+                    # Read with proper error handling
+                    df = pd.read_excel(file_path, sheet_name=sheet_name, engine='openpyxl')
+                    df = self._clean_dataframe(df, sheet_name)
+                    if not df.empty:
+                        data[sheet_name] = df
+                except Exception as sheet_error:
+                    print(f"Error loading sheet {sheet_name}: {str(sheet_error)}")
+                    continue
                 
             return data
         except Exception as e:
@@ -37,7 +43,21 @@ class SafetyDataProcessor:
     def load_csv_data(self, file_path):
         """Load and process CSV data"""
         try:
-            df = pd.read_csv(file_path)
+            # Try different encodings for Arabic text
+            encodings = ['utf-8', 'utf-8-sig', 'cp1256', 'iso-8859-1']
+            df = None
+            
+            for encoding in encodings:
+                try:
+                    df = pd.read_csv(file_path, encoding=encoding)
+                    break
+                except UnicodeDecodeError:
+                    continue
+            
+            if df is None:
+                # Last resort - try with error handling
+                df = pd.read_csv(file_path, encoding='utf-8', errors='ignore')
+            
             filename = file_path.split('/')[-1].replace('.csv', '')
             df = self._clean_dataframe(df, filename)
             return df
@@ -221,19 +241,48 @@ class SafetyDataProcessor:
         if len(datasets) == 1:
             return datasets[0]
         
+        # Clean datasets first to avoid duplicate column issues
+        cleaned_datasets = []
+        for i, df in enumerate(datasets):
+            # Remove duplicate columns
+            df_clean = df.loc[:, ~df.columns.duplicated()]
+            
+            # Add source identifier to avoid conflicts
+            df_clean = df_clean.copy()
+            if 'source' not in df_clean.columns:
+                df_clean['source'] = f'dataset_{i}'
+            
+            cleaned_datasets.append(df_clean)
+        
         # Find common columns
-        common_columns = set(datasets[0].columns)
-        for df in datasets[1:]:
+        common_columns = set(cleaned_datasets[0].columns)
+        for df in cleaned_datasets[1:]:
             common_columns = common_columns.intersection(set(df.columns))
         
-        # Merge datasets using common columns
-        merged_data = []
-        for df in datasets:
-            # Select common columns and add missing ones with NaN
-            df_subset = df[list(common_columns)].copy()
-            merged_data.append(df_subset)
+        # Ensure we have at least some common columns
+        if not common_columns:
+            # If no common columns, use all columns and fill missing with NaN
+            all_columns = set()
+            for df in cleaned_datasets:
+                all_columns.update(df.columns)
+            
+            # Reindex all dataframes to have the same columns
+            standardized_datasets = []
+            for df in cleaned_datasets:
+                df_reindexed = df.reindex(columns=list(all_columns))
+                standardized_datasets.append(df_reindexed)
+            
+            result = pd.concat(standardized_datasets, ignore_index=True, sort=False)
+        else:
+            # Merge datasets using common columns
+            merged_data = []
+            for df in cleaned_datasets:
+                # Select common columns
+                df_subset = df[list(common_columns)].copy()
+                merged_data.append(df_subset)
+            
+            result = pd.concat(merged_data, ignore_index=True, sort=False)
         
-        result = pd.concat(merged_data, ignore_index=True)
         return result
     
     def generate_kpi_data(self, unified_data):
