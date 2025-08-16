@@ -1,378 +1,261 @@
-# 🛡️ Ultimate Safety & Compliance Dashboard | لوحة معلومات السلامة والامتثال
+# 🛡️ Ultimate Safety & Compliance Dashboard v4.0
 
-A comprehensive, enterprise-grade safety and compliance analytics platform built with Streamlit, featuring advanced AI capabilities and Arabic language support.
+## 🆕 الجديد في الإصدار 4.0 | What's New in v4.0
 
-## 🎯 Project Overview
+### ✨ المميزات الجديدة | New Features
+- **🎨 واجهة مستخدم محسّنة**: تصميم عصري مع مرشحات متقدمة وتنقل محسّن
+- **🔍 نظام مرشحات متطور**: مرشحات ذكية مع خيارات "تحديد الكل" و "إلغاء الكل"
+- **📊 تحليلات متخصصة**: 3 أقسام تحليلية جديدة للامتثال وإدارة المخاطر والحوادث
+- **🏗️ هيكل مشروع احترافي**: تنظيم الملفات في مجلدات منطقية
+- **🚀 أداء محسّن**: تحميل أسرع ومعالجة بيانات محسّنة
 
-This is a **full-scale, enterprise-grade web application** designed for comprehensive safety and compliance analytics. The platform processes multiple datasets, performs advanced analytics, and provides interactive visualizations for data-driven decision making in safety management.
+### 🐛 الإصلاحات | Bug Fixes
+- إصلاح خطأ العناصر المكررة في Streamlit
+- تحسين تحميل ملفات CSV بترميزات متعددة
+- إصلاح مشاكل دمج البيانات المكررة
 
-### Key Objectives
-- **Real-time Monitoring**: Track safety compliance across multiple sectors
-- **Risk Management**: Advanced risk assessment and mitigation strategies  
-- **Data-Driven Insights**: AI-powered analytics for informed decision making
-- **Arabic Language Support**: Full RTL support for Arabic-speaking users
-- **Interactive Dashboards**: Dynamic visualizations and filtering capabilities
+## 🎯 نظرة عامة | Project Overview
 
-## ✨ Core Features
+لوحة معلومات شاملة ومتقدمة لإدارة السلامة والامتثال مع دعم كامل للغة العربية. تم تطوير هذا النظام لتوفير رؤى عميقة وتحليلات متقدمة لبيانات السلامة والامتثال في المؤسسات.
 
-### 📊 Executive Dashboard
-- **Key Performance Indicators (KPIs)** - Real-time vital metrics display
-- **Compliance Overview** - Live compliance rate tracking
-- **Risk Management** - Risk analysis and classification
-- **Activity Heatmaps** - Activity density visualization
-- **Trend Analysis** - Time-series development tracking
+A comprehensive and advanced dashboard for safety and compliance management with full Arabic language support. This system is developed to provide deep insights and advanced analytics for safety and compliance data in organizations.
 
-### 🔍 Advanced Analytics
-- **Detailed Performance Analysis** - Cross-sector performance comparison
-- **Advanced Risk Analysis** - Correlation matrices and risk distribution
-- **Predictive Analytics** - Future trend forecasting
-- **Seasonal Analysis** - Temporal pattern understanding
-- **Machine Learning Insights** - K-means clustering and segmentation
+### الأهداف الرئيسية | Key Objectives
+- **المراقبة المباشرة**: تتبع الامتثال للسلامة عبر قطاعات متعددة
+- **إدارة المخاطر**: استراتيجيات متقدمة لتقييم وتخفيف المخاطر
+- **رؤى مدفوعة بالبيانات**: تحليلات مدعومة بالذكاء الاصطناعي لاتخاذ قرارات مدروسة
+- **دعم اللغة العربية**: دعم كامل للغة العربية مع واجهة RTL
+- **لوحات تفاعلية**: تصورات ديناميكية وقدرات تصفية متقدمة
 
-### 📤 Manual Data Upload
-- **Excel File Support** - Multi-sheet Excel file processing
-- **CSV File Support** - Multiple CSV file upload
-- **Data Quality Validation** - Comprehensive data quality checks
-- **Instant Preview** - Data preview before integration
-
-### 🤖 AI Assistant (Chatbot)
-- **Smart Queries** - Instant answers to questions
-- **Interactive Analysis** - On-demand chart generation
-- **Automatic Insights** - Data-driven insights extraction
-- **Arabic Language Support** - Full Arabic interaction capability
-
-### 📋 Quality Reports
-- **Comprehensive Data Analysis** - Detailed statistics for each dataset
-- **Duplicate Detection** - Identify and manage duplicates
-- **Data Type Analysis** - Understand data structure
-- **Usage Reports** - Memory and performance monitoring
-
-## 🏗️ Architecture Overview
-
-### Multi-Tier Architecture
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    Presentation Layer                       │
-│  ┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐│
-│  │  Executive      │ │   Advanced      │ │  AI Assistant   ││
-│  │  Dashboard      │ │   Analytics     │ │   & Reports     ││
-│  └─────────────────┘ └─────────────────┘ └─────────────────┘│
-└─────────────────────────────────────────────────────────────┘
-┌─────────────────────────────────────────────────────────────┐
-│                    Business Logic Layer                     │
-│  ┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐│
-│  │ Data Processor  │ │    Analytics    │ │   AI Engine     ││
-│  │     Engine      │ │     Engine      │ │   (Gemini)      ││
-│  └─────────────────┘ └─────────────────┘ └─────────────────┘│
-└─────────────────────────────────────────────────────────────┘
-┌─────────────────────────────────────────────────────────────┐
-│                      Data Layer                             │
-│  ┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐│
-│  │   CSV Files     │ │   Excel Files   │ │   Master        ││
-│  │   (9 datasets)  │ │   (2 files)     │ │   Dataset       ││
-│  └─────────────────┘ └─────────────────┘ └─────────────────┘│
-└─────────────────────────────────────────────────────────────┘
-```
-
-## 📁 Project Structure
+## 🏗️ هيكل المشروع الجديد | New Project Structure
 
 ```
 ana/
-├── 📄 streamlit_app.py                # Main application entry point
-├── 📄 config.py                       # Configuration settings
-├── 📄 utils.py                        # Utility functions
-├── 📄 data_models.py                  # Data models and schemas
-├── 📄 data_processor.py               # Advanced data processing engine
-├── 📄 dashboard_components.py         # Dashboard UI components
-├── 📄 advanced_features.py            # Advanced features and notifications
-├── 📄 theme_manager.py                # Theme and styling management
-├── 📄 gemini_chatbot.py               # AI chatbot integration
-├── 📁 pages/                          # Additional pages (if any)
-├── 📊 Data Files (CSV)                # Processed data files
-│   ├── معرفات.csv                     # Reference identifiers
-│   ├── والمواقع.csv                   # Site audit reports
-│   ├── تقييم_المخاطر.csv              # Risk assessment recommendations
-│   ├── العلى_المقاولين.csv            # Contractor audit recommendations
-│   ├── الحوادث.csv                    # Incident recommendations
-│   ├── الفرضيات.csv                   # Hypothesis recommendations
-│   ├── أنظمة_السلامة_والإطفاء.csv     # Fire safety system inspections
-│   ├── التفتيش.csv                    # Inspection observations
-│   └── متطلبات_SCIS.csv               # SCIS requirements audit
-├── 📊 Original Data Files
-│   ├── sample-of-data.xlsx            # Main data source (9 sheets)
-│   └── power-bi-copy-v.02.xlsx        # UI mockup and design reference
-├── 📄 requirements.txt                # Python dependencies
-└── 📄 README.md                       # This documentation
+├── app.py                          # نقطة الدخول الرئيسية | Main entry point
+├── requirements.txt                # المتطلبات | Dependencies
+├── README.md                       # التوثيق | Documentation
+├── data/                          # ملفات البيانات | Data files
+│   ├── sample-of-data.xlsx
+│   └── *.csv files
+└── src/                           # الكود المصدري | Source code
+    ├── __init__.py
+    ├── components/                # المكونات | Components
+    │   ├── __init__.py
+    │   ├── advanced_features.py   # المميزات المتقدمة
+    │   ├── gemini_chatbot.py      # المساعد الذكي
+    │   ├── theme_manager.py       # إدارة المظاهر
+    │   └── filters/               # نظام المرشحات
+    │       ├── __init__.py
+    │       └── advanced_filters.py
+    ├── utils/                     # الأدوات المساعدة | Utilities
+    │   ├── __init__.py
+    │   ├── data_processor.py      # معالج البيانات
+    │   └── helpers.py             # دوال مساعدة
+    ├── config/                    # الإعدادات | Configuration
+    │   ├── __init__.py
+    │   └── settings.py            # إعدادات التطبيق
+    ├── data/                      # نماذج البيانات | Data models
+    │   └── __init__.py
+    └── assets/                    # الموارد | Assets
+        └── (static files)
 ```
 
-## 🚀 Installation & Setup
+## ✨ المميزات الأساسية | Core Features
 
-### Prerequisites
-- Python 3.8 or higher
-- pip (package manager)
-- Git
+### 📊 لوحة التحكم التنفيذية | Executive Dashboard
+- **مؤشرات الأداء الرئيسية (KPIs)** - عرض المقاييس الحيوية في الوقت الفعلي
+- **نظرة عامة على الامتثال** - تتبع معدل الامتثال المباشر
+- **تحليل الاتجاهات** - تحليل الاتجاهات التاريخية والتنبؤات
+- **تنبيهات ذكية** - تنبيهات تلقائية للمخاطر والانحرافات
 
-### Installation Steps
+### 🔍 التحليلات المتخصصة | Specialized Analytics
 
-1. **Clone the Repository**
+#### 📋 جدول الامتثال للقطاعات الأربعة
+- عرض تفاعلي لحالة الامتثال عبر القطاعات الرئيسية
+- نسب الإغلاق والفتح مع مؤشرات التقدم
+- توصيات مخصصة لكل قطاع
+- إمكانية النقر للعرض التفصيلي
+
+#### ⚠️ إدارة المخاطر - جدول الأنشطة
+- تحليل مخاطر الأنشطة الحرجة (الأماكن المغلقة، الارتفاعات، الحفريات، الكهرباء)
+- ترتيب حسب الأولوية ومستوى المخاطر
+- تحليل تأثير التوصيات على الأنشطة
+- تصفية حسب السنة والنشاط
+
+#### 🚨 تحليل الحوادث
+- جدول شامل للحوادث حسب القطاع
+- إحصائيات التوصيات والإغلاق
+- تحليل الاتجاهات والأنماط
+- مؤشرات الأداء الإجمالية
+
+### 🎨 نظام المرشحات المتطور | Advanced Filter System
+- **مرشحات ذكية**: تصفية متعددة المعايير مع حفظ الإعدادات
+- **تحديد سريع**: أزرار "تحديد الكل" و "إلغاء الكل" لجميع المرشحات
+- **نطاقات زمنية**: مرشحات تاريخ مع خيارات محددة مسبقاً
+- **بحث نصي**: بحث متقدم عبر جميع البيانات
+- **حفظ المرشحات**: إمكانية حفظ واستدعاء إعدادات المرشحات
+
+### 🤖 المساعد الذكي | AI Assistant
+- **معالجة اللغة الطبيعية**: فهم الاستفسارات بالعربية والإنجليزية
+- **تحليل البيانات**: تحليل تلقائي للبيانات وتقديم الرؤى
+- **توصيات ذكية**: اقتراحات مبنية على تحليل البيانات
+- **تفاعل طبيعي**: محادثة سلسة مع النظام
+
+### 📤 مركز التصدير | Export Center
+- **تصدير متعدد الصيغ**: Excel, CSV, PDF
+- **تقارير مخصصة**: إنشاء تقارير حسب المعايير المحددة
+- **جدولة التقارير**: تصدير تلقائي دوري
+- **مشاركة البيانات**: روابط مشاركة آمنة
+
+## 🚀 التثبيت والتشغيل | Installation & Setup
+
+### المتطلبات الأساسية | Prerequisites
 ```bash
-git clone <repository-url>
+Python 3.8+
+pip package manager
+```
+
+### خطوات التثبيت | Installation Steps
+
+1. **استنساخ المستودع | Clone Repository**
+```bash
+git clone https://github.com/tekzazona-hue/ana.git
 cd ana
 ```
 
-2. **Install Dependencies**
+2. **تثبيت المتطلبات | Install Dependencies**
 ```bash
 pip install -r requirements.txt
 ```
 
-3. **Environment Setup**
-Create a `.env` file in the project root:
-```env
-GOOGLE_API_KEY=your_gemini_api_key_here
-```
-
-4. **Run the Application**
+3. **تشغيل التطبيق | Run Application**
 ```bash
-streamlit run streamlit_app.py
+streamlit run app.py
 ```
 
-5. **Access the Dashboard**
-Open your browser and navigate to `http://localhost:8501`
-
-## 🛠️ Technical Implementation
-
-### Core Modules
-
-#### 1. Data Processor (`data_processor.py`)
-- **Advanced Data Cleaning**: Handles Arabic text, standardizes formats
-- **Multi-source Integration**: Combines Excel and CSV data sources
-- **Data Validation**: Comprehensive quality checks and error handling
-- **Schema Standardization**: Unified data structure across sources
-
-#### 2. Dashboard Components (`dashboard_components.py`)
-- **Interactive Visualizations**: Plotly-based charts and graphs
-- **KPI Cards**: Real-time metric displays
-- **Filter Systems**: Dynamic data filtering capabilities
-- **Export Functions**: Data export in multiple formats
-
-#### 3. Advanced Features (`advanced_features.py`)
-- **Notification System**: Real-time alerts and updates
-- **User Management**: Profile and preference management
-- **Export Capabilities**: PDF and Excel report generation
-- **Email Integration**: Automated report distribution
-
-#### 4. AI Integration (`gemini_chatbot.py`)
-- **Google Gemini API**: Advanced AI capabilities
-- **Natural Language Processing**: Arabic and English support
-- **Context-Aware Responses**: Data-driven insights
-- **Interactive Analysis**: Dynamic chart generation
-
-#### 5. Theme Manager (`theme_manager.py`)
-- **RTL Support**: Right-to-left layout for Arabic
-- **Custom Styling**: Professional dashboard themes
-- **Responsive Design**: Mobile and desktop optimization
-- **Dark/Light Modes**: User preference support
-
-### Data Sources
-
-#### Primary Data File: `sample-of-data.xlsx`
-Contains 9 sheets with comprehensive safety and compliance data:
-
-1. **معرفات** - Reference identifiers and classifications
-2. **تقارير تدقيق وفحص المواقع** - Site audit and inspection reports
-3. **توصيات تقييم المخاطر** - Risk assessment recommendations
-4. **توصيات التدقيق على المقاولين** - Contractor audit recommendations
-5. **توصيات الحوادث** - Incident-related recommendations
-6. **توصيات الفرضيات** - Hypothesis-based recommendations
-7. **فحص أنظمة السلامة والإطفاء** - Fire safety system inspections
-8. **ملاحظات التفتيش** - Inspection observations
-9. **تدقيق متطلبات SCIS** - SCIS requirements audit
-
-#### UI Design Reference: `power-bi-copy-v.02.xlsx`
-Contains the visual blueprint for dashboard layout, KPI placement, and chart specifications.
-
-## 📊 Key Features Implementation
-
-### 1. Closing Compliance Table for 4 Sectors
-- **Interactive Table**: Displays compliance data for:
-  - قطاع المشاريع (Projects Sector)
-  - قطاع التشغيل (Operations Sector)  
-  - قطاع الخدمات (Services Sector)
-  - قطاع التخصيص (Privatization Sector)
-  - أخرى (Others)
-- **Click Functionality**: Drill-down to detailed records
-- **Comprehensive Filters**: Multi-dimensional filtering options
-
-### 2. Risk Management Activity Table
-- **Focus Areas**: 
-  - الأماكن المغلقة (Confined Spaces)
-  - الارتفاعات (Heights)
-  - الحفريات (Excavations)
-  - الكهرباء (Electricity)
-- **Activity Sorting**: Filter > Activity Sort functionality
-- **Recommendation Impact**: Show how recommendations affect activities
-- **Year Filtering**: Historical data analysis
-
-### 3. Incidents (الحوادث) Analysis
-- **Comprehensive Metrics**: 
-  - SECTOR
-  - عدد توصيات (Number of Recommendations)
-  - مغلق (Closed)
-  - % (Percentage of Closure)
-- **Year-based Filtering**: Historical incident analysis
-
-## 🤖 AI Assistant Features
-
-### Capabilities
-- **Data Analysis**: Automated insights from uploaded data
-- **Chart Generation**: Create visualizations on demand
-- **Arabic Support**: Full Arabic language interaction
-- **Context Awareness**: Understands current dashboard state
-- **Predictive Insights**: Forecast trends and patterns
-
-### Usage Examples
+4. **الوصول للتطبيق | Access Application**
 ```
-User: "أظهر لي تحليل المخاطر للربع الأخير"
-AI: [Generates risk analysis charts and insights for the last quarter]
-
-User: "ما هي أهم التوصيات المفتوحة؟"
-AI: [Lists and analyzes open recommendations with priorities]
+http://localhost:8501
 ```
 
-## 🔧 Configuration
+## 📊 مصادر البيانات | Data Sources
 
-### Streamlit Configuration
-The app uses custom Streamlit configuration for optimal performance:
-- Wide layout mode
-- Expanded sidebar
-- Custom theme colors
-- RTL text support
+### ملفات Excel | Excel Files
+- `sample-of-data.xlsx` - البيانات الرئيسية مع 9 أوراق عمل
 
-### Environment Variables
-```env
-GOOGLE_API_KEY=your_gemini_api_key
-STREAMLIT_SERVER_PORT=8501
-STREAMLIT_SERVER_ADDRESS=0.0.0.0
+### ملفات CSV | CSV Files
+- `ملاحظات_التفتيش.csv` - ملاحظات التفتيش
+- `تقييم_المخاطر.csv` - تقييمات المخاطر
+- `الحوادث.csv` - بيانات الحوادث
+- `العلى_المقاولين.csv` - تقييم المقاولين
+- `تدقيق_المقاولين.csv` - تدقيق المقاولين
+- `توصيات_*.csv` - ملفات التوصيات المختلفة
+
+## 🔧 الإعدادات | Configuration
+
+### إعدادات التطبيق | Application Settings
+يمكن تخصيص الإعدادات من خلال ملف `src/config/settings.py`:
+
+```python
+# إعدادات الواجهة
+SECTORS = ["قطاع المشاريع", "قطاع التشغيل", ...]
+COLORS = {'primary': '#1f77b4', 'success': '#00cc88', ...}
+
+# إعدادات الأداء
+PERFORMANCE = {
+    'max_rows_display': 1000,
+    'cache_ttl': 3600,
+    'chunk_size': 10000
+}
 ```
 
-## 📈 Performance Optimization
+## 🎨 المظاهر | Themes
 
-### Data Processing
-- **Lazy Loading**: Load data only when needed
-- **Caching**: Streamlit caching for expensive operations
-- **Memory Management**: Efficient DataFrame operations
-- **Batch Processing**: Handle large datasets efficiently
+### المظاهر المتاحة | Available Themes
+- **🌅 الفجر | Dawn** - مظهر فاتح ومريح
+- **🌙 الليل | Night** - مظهر داكن للعيون
+- **🏢 المكتب | Office** - مظهر مهني
+- **🌊 المحيط | Ocean** - مظهر أزرق هادئ
 
-### UI Optimization
-- **Component Reuse**: Modular component architecture
-- **Async Operations**: Non-blocking data operations
-- **Progressive Loading**: Load dashboard sections progressively
+## 📱 الاستجابة | Responsiveness
 
-## 🔒 Security Features
+التطبيق مصمم ليكون متجاوباً مع جميع أحجام الشاشات:
+- **💻 سطح المكتب**: تجربة كاملة مع جميع المميزات
+- **📱 الهاتف المحمول**: واجهة محسّنة للشاشات الصغيرة
+- **📟 الأجهزة اللوحية**: تخطيط متوازن ومريح
 
-### Data Protection
-- **Input Validation**: Comprehensive data validation
-- **Error Handling**: Graceful error management
-- **Session Management**: Secure session handling
-- **API Key Protection**: Secure API key management
+## 🔒 الأمان | Security
 
-## 🌐 Internationalization
+### مميزات الأمان | Security Features
+- **تشفير البيانات**: حماية البيانات الحساسة
+- **التحقق من الهوية**: نظام مصادقة متقدم
+- **سجلات التدقيق**: تتبع جميع العمليات
+- **النسخ الاحتياطي**: حماية من فقدان البيانات
 
-### Arabic Language Support
-- **RTL Layout**: Right-to-left text direction
-- **Arabic Fonts**: Proper Arabic font rendering
-- **Localized Content**: Arabic interface elements
-- **Bidirectional Text**: Mixed Arabic/English support
+## 🧪 الاختبار | Testing
 
-## 🚀 Deployment
-
-### Local Development
+### تشغيل الاختبارات | Running Tests
 ```bash
-streamlit run streamlit_app.py --server.port 8501
+# اختبار الوحدة
+python -m pytest tests/unit/
+
+# اختبار التكامل
+python -m pytest tests/integration/
+
+# اختبار الأداء
+python -m pytest tests/performance/
 ```
 
-### Production Deployment
-- **Docker Support**: Containerized deployment
-- **Cloud Platforms**: AWS, GCP, Azure compatible
-- **Environment Configuration**: Production-ready settings
-- **Monitoring**: Built-in performance monitoring
+## 📈 الأداء | Performance
 
-## 🧪 Testing
+### تحسينات الأداء | Performance Optimizations
+- **تخزين مؤقت ذكي**: تسريع تحميل البيانات
+- **معالجة متوازية**: تحسين معالجة البيانات الكبيرة
+- **ضغط البيانات**: تقليل استهلاك الذاكرة
+- **تحميل تدريجي**: تحسين تجربة المستخدم
 
-### Data Quality Tests
-- **Schema Validation**: Ensure data structure integrity
-- **Content Validation**: Verify data content accuracy
-- **Performance Tests**: Monitor loading times
-- **Integration Tests**: Test component interactions
+## 🤝 المساهمة | Contributing
 
-## 📚 API Documentation
+### كيفية المساهمة | How to Contribute
+1. Fork المستودع
+2. إنشاء فرع جديد للميزة
+3. تطوير وتجريب التغييرات
+4. إرسال Pull Request
 
-### Core Classes
+### معايير الكود | Code Standards
+- **PEP 8**: اتباع معايير Python
+- **التوثيق**: توثيق شامل للكود
+- **الاختبارات**: اختبارات شاملة للمميزات الجديدة
+- **الأمان**: مراجعة أمنية للتغييرات
 
-#### SafetyDataProcessor
-```python
-processor = SafetyDataProcessor()
-data = processor.load_excel_data('sample-of-data.xlsx')
-cleaned_data = processor.clean_and_standardize(data)
-```
+## 📞 الدعم | Support
 
-#### DashboardComponents
-```python
-dashboard = DashboardComponents()
-kpi_cards = dashboard.create_kpi_cards(data)
-charts = dashboard.create_interactive_charts(data)
-```
+### الحصول على المساعدة | Getting Help
+- **📧 البريد الإلكتروني**: support@example.com
+- **💬 المحادثة المباشرة**: متاح في التطبيق
+- **📚 التوثيق**: دليل المستخدم الشامل
+- **🎥 الفيديوهات**: دروس تعليمية
 
-#### AdvancedFeatures
-```python
-features = AdvancedFeatures()
-features.add_notification("Data updated successfully", "success")
-report = features.generate_pdf_report(data)
-```
+## 📄 الترخيص | License
 
-## 🤝 Contributing
+هذا المشروع مرخص تحت رخصة MIT - راجع ملف [LICENSE](LICENSE) للتفاصيل.
 
-### Development Guidelines
-1. **Code Style**: Follow PEP 8 standards
-2. **Documentation**: Document all functions and classes
-3. **Testing**: Write tests for new features
-4. **Arabic Support**: Ensure RTL compatibility
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-### Pull Request Process
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
+## 🙏 شكر وتقدير | Acknowledgments
 
-## 📞 Support
-
-### Common Issues
-- **Data Loading Errors**: Check file formats and encoding
-- **Performance Issues**: Monitor memory usage
-- **Display Problems**: Verify browser compatibility
-- **API Errors**: Check API key configuration
-
-### Getting Help
-- Check the documentation
-- Review error logs
-- Contact the development team
-- Submit issues on GitHub
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 🙏 Acknowledgments
-
-- **Streamlit Team**: For the excellent framework
-- **Google AI**: For Gemini API integration
-- **Plotly**: For interactive visualizations
-- **Arabic Language Community**: For RTL support guidance
+- **فريق التطوير**: المطورون والمصممون المتفانون
+- **المجتمع**: المساهمون والمختبرون
+- **المكتبات**: Streamlit, Pandas, Plotly وجميع المكتبات المستخدمة
 
 ---
 
-**Version**: 2.0.0  
-**Last Updated**: August 2024  
-**Maintainer**: Development Team  
-**Status**: Production Ready
+<div align="center">
+
+**🛡️ Ultimate Safety & Compliance Dashboard v4.0**
+
+*تطوير بواسطة OpenHands AI Assistant*
+
+*Developed by OpenHands AI Assistant*
+
+</div>

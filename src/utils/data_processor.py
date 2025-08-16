@@ -6,9 +6,23 @@ Handles data cleaning, standardization, and unification for the Safety & Complia
 import pandas as pd
 import numpy as np
 import re
+import sys
+import os
 from datetime import datetime, timedelta
 import warnings
 warnings.filterwarnings('ignore')
+
+# Add parent directories to path for imports
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+
+try:
+    from config.settings import ENCODING_OPTIONS, CSV_FILES, EXCEL_FILES
+except ImportError:
+    # Fallback if config is not available
+    ENCODING_OPTIONS = ['utf-8', 'utf-8-sig', 'cp1256', 'iso-8859-1']
+    CSV_FILES = []
+    EXCEL_FILES = {}
 
 class SafetyDataProcessor:
     """Comprehensive data processor for safety and compliance data"""
